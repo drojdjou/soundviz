@@ -1,6 +1,8 @@
 {
   "name": "soundviz",
   "version": "0.2.1",
+  "repository": "https://github.com/drojdjou/soundviz",
+  "license": "MIT",
   "devDependencies": {
     "fs-extra": "*",
     "uglify-js": "*"

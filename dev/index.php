@@ -71,7 +71,6 @@ getDirContents('js');
 <!-- !DEV -->
 
 <!-- !PROD --><!--
-<script type="text/javascript" src="-min-76.js"></script>
 <script src="soundviz-%%BUILD_NUMBER%%.js"></script> 
 --><!-- !PROD -->
 

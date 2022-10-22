@@ -46,6 +46,8 @@ var createBucket = function(folder, files) {
         files = files.concat(walk(folder + '/'));
     }
 
+    files = files.reverse();
+
     // Make sure there are no duplicates
     files = files.filter(function(item, pos, self) {
         return self.indexOf(item) == pos;

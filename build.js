@@ -3,7 +3,7 @@
 var fs = require('fs');
 var fse = require('fs-extra');
 
-var BUILD_NUMBER = 22;
+var BUILD_NUMBER = 23;
 
 try {
     fs.rmdirSync("release", { recursive: true })
@@ -26,4 +26,17 @@ var htmlc = require('./build/htmlc');
 var jcc = require('./build/jcc');
 
 htmlc.buildHTML('dev/index.php', 'release/index.php', '/', { useBasePath: true, build: BUILD_NUMBER });
-jcc.saveBucket(jcc.createBucket("dev/js"), 'soundviz-' + BUILD_NUMBER, 'release/');
+jcc.saveBucket(jcc.createBucket(
+    [
+        "dev/js/audio", 
+        "dev/js/effects", 
+        "dev/js/geometry", 
+        "dev/js/objects", 
+        "dev/js/ui"
+    ], 
+    [
+        "dev/js/main.js"
+    ]), 
+    'soundviz-' + BUILD_NUMBER, 
+    'release/'
+);
