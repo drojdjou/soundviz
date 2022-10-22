@@ -61,6 +61,6 @@ var LeapWrapper = function(options) {
 		}
 	}
 
-	Leap.loop(read);
+	// Leap.loop(read);
 
 }

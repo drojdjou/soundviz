@@ -1,7 +1,9 @@
 {
   "name": "soundviz",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "devDependencies": {
-    "grunt-contrib-uglify": "~0.4.0"
+    "chokidar": "^3.1.0",
+    "fs-extra": "*",
+    "uglify-es": "^3.3.9"
   }
 }
