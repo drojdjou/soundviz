@@ -21,6 +21,7 @@ fse.copySync("dev/assets", "release/assets", { overwrite: true });
 
 fse.copySync("dev/squareroot-min-76.js", "release/squareroot-min-76.js", { overwrite: true });
 fse.copySync("dev/style.css", "release/style.css", { overwrite: true });
+fse.copySync("dev/template.htaccess", "release/.htaccess", { overwrite: true });
 
 var htmlc = require('./build/htmlc');
 var jcc = require('./build/jcc');
