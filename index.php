@@ -24,19 +24,25 @@
         <li data-index="3">Waves</li>
         <li data-index="4">Elastic cube</li>
     </ul>
-    <p>Source</p>
+    <p>Audio Source</p>
     <ul>
         <li class="mic">Microphone</li>
         <li class="track">Track</li>
     </ul>
-    <p class="small">tip: Scroll for more info</p>
 </div>
 
 <div class="menu-button"><span>+</span> show options</div>
 
+<div class="start">
+    <button>Start</button>
+</div>
+
 <!-- !DEV -->
-<script type="text/javascript" src="squareroot-min-76.js"></script>
+
+<!-- It does only work with an older version of the Engine -->
 <!-- <script type="text/javascript" src="../../javascript/squareroot/build/sqr.js"></script> -->
+<script type="text/javascript" src="squareroot-min-76.js"></script>
+
 <?php
 
 	$cmdl = strlen(getcwd()) + 1;
@@ -63,12 +69,6 @@
 ?>
 <script type="text/javascript" src="js/main.js"></script>
 <!-- !DEV -->
-
-<script>
-    if(location.host.indexOf('localhost') > -1 || location.host.indexOf('192.168') > -1) {
-        document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>');
-    }
-</script>
 
 </body>
 </head>

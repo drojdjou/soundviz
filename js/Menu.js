@@ -1,8 +1,6 @@
 var Menu = (function() {
 
-	var width = 240;
-
-	var effectCallback, micCallback, trackCallback;
+	var effectCallback, micCallback, trackCallback, startCallback;
 
 	var menu = document.querySelector(".menu");
 	var btn = document.querySelector(".menu-button");
@@ -12,11 +10,21 @@ var Menu = (function() {
 	var mic = document.querySelector(".mic");
 	var track = document.querySelector(".track");
 
+	var start = document.querySelector(".start");
+
 	var translateX = function(e, v) {
-		e.style.webkitTransform = 'translateX(' + v + 'px)';
-		e.style.msTransform = 'translateX(' + v + 'px)';
-		e.style.MozTransform = 'translateX(' + v + 'px)';
 		e.style.transform = 'translateX(' + v + 'px)';
+	}
+
+	var onClose = function() {
+		btn.style.display = 'block';
+
+		setTimeout(function() {
+			btn.style.opacity = 1;
+		}, 1);
+
+		menu.style.opacity = 0;
+		translateX(menu, -30);
 	}
 
 	for(var i = 0; i < effects.length; i++) {
@@ -45,16 +53,7 @@ var Menu = (function() {
 		}, 200);
 	});
 
-	close.addEventListener('click', function() {
-		btn.style.display = 'block';
-
-		setTimeout(function() {
-			btn.style.opacity = 1;
-		}, 1);
-
-		menu.style.opacity = 0;
-		translateX(menu, -30);
-	});
+	close.addEventListener('click', onClose);
 
 	mic.addEventListener('click', function() {
 		mic.setAttribute('class', 'selected');
@@ -70,24 +69,32 @@ var Menu = (function() {
 
 	var m = {};
 
-	m.onEffect = function(callback) {
+	m.onEffect = (callback) => {
 		effectCallback = callback;
 	}
 
-	m.onMic = function(callback) {	
+	m.onMic = (callback) => {	
 		micCallback = callback;
 		
 	}
 
-	m.onTrack = function(callback) {
+	m.onTrack = (callback) => {
 		trackCallback = callback;
-		
+	}
+
+	m.onStart = (callback) => {
+		startCallback = callback;
 	}
 
 	track.setAttribute('class', 'selected');
 	effects[0].setAttribute('class', 'selected');
 	btn.style.opacity = 0;
 	btn.style.display = 'none';
+
+	start.querySelector("button").addEventListener("click", () => {
+		start.style.display = "none";
+		if(startCallback) startCallback();
+	});
 
 	return m;
 

@@ -1,5 +1,5 @@
 // Based on http://www.airtightinteractive.com/demos/js/uberviz/audioanalysis/js/AudioHandler.js
-var SoundAnalyser = function() {
+var SoundAnalyser = function(initCallback) {
 
 	var that = this, sa = {};
 
@@ -13,18 +13,17 @@ var SoundAnalyser = function() {
 
 	var isPlaying = false, isUsingMic = false, isMicCreated = false;
 	var audioContext, audioElement, analyser, microphone, volumeNode;
-
+	
 	var freqByteData; // bars - bar data is from 0 - 256 in 512 bins. no sound is 0;
 	var timeByteData; // waveform - waveform data is from 0-256 for 512 bins. no sound is 128.
-
+	
 	var beatCutOff = 0, beatTime, beatLevel = 0;
 	var beatHoldTime = 15; // num of frames to hold a beat
 	var beatDecayRate = 0.97;
 	var beatMinVol = 0.25; // a volume less than this is no beat
 	var beatLevelUp = 1.05;
-
+	
 	var initContext = function() {
-
 		audioContext = new window.AudioContext();
 
 		analyser = audioContext.createAnalyser();
@@ -44,6 +43,8 @@ var SoundAnalyser = function() {
 
 		freqByteData = new Uint8Array(sa.binCount); 
 		timeByteData = new Uint8Array(sa.binCount);
+
+		initCallback();
 	}
 
 	sa.setVolume = function(value) {
@@ -56,6 +57,8 @@ var SoundAnalyser = function() {
 
 	sa.connectMic = function() {
 
+		console.log("Connecting mic");
+
 		if(isUsingMic) return;
 
 		if(isPlaying) {
@@ -64,14 +67,17 @@ var SoundAnalyser = function() {
 		}
 
 		if(!isMicCreated) {
-			if (!navigator.getUserMedia) throw "No User Media detected";
+			if (!navigator.mediaDevices.getUserMedia) throw "No User Media detected";
 
-			navigator.getUserMedia({audio: true}, function(stream) {
+			navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+			.then((stream) => {
 				microphone = audioContext.createMediaStreamSource(stream);
 				microphone.connect(volumeGainNode);
 				beatStart = new Date().getTime();
+			})
+			.catch((err) => {
+				console.error(err);
 			});
-
 		} else {
 			microphone.connect(volumeGainNode);
 		}
@@ -83,11 +89,10 @@ var SoundAnalyser = function() {
 		return sa;
 	}
 	
-
 	sa.connectTrack = function(path) {
 
 		if(isPlaying) return;
-
+		
 		if(isUsingMic) {
 			microphone.disconnect(volumeGainNode);
 		}
@@ -100,12 +105,16 @@ var SoundAnalyser = function() {
 			audioElement.loop = true;
 			source = audioContext.createMediaElementSource(audioElement);
 		}
-
+		
 		source.connect(volumeGainNode);
+		
+		console.log("Audio ready");
 		audioElement.play();
-
+		
 		isPlaying = true;
 	}
+
+	sa.start = initContext;
 
 	sa.update = function() {
 		analyser.getByteFrequencyData(freqByteData); //<-- bar chart
@@ -157,8 +166,6 @@ var SoundAnalyser = function() {
 			}
 		}
 	}
-
-	initContext();
 
 	return sa;
 }
