@@ -1,9 +1,8 @@
 {
   "name": "soundviz",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "devDependencies": {
-    "chokidar": "^3.1.0",
     "fs-extra": "*",
-    "uglify-es": "^3.3.9"
+    "uglify-js": "*"
   }
 }

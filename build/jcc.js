@@ -1,5 +1,5 @@
 var fs = require('fs');
-var UglifyJS = require("uglify-es");
+var UglifyJS = require("uglify-js");
 var walk = require('./walk');
 
 var minify = function(code) {
