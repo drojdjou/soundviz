@@ -38,21 +38,15 @@ sound = new SoundAnalyser(onSoundInitiated);
 
 var debugViz = new SoundVisualizer(document.querySelector('#viz-canvas'), 128, 64);
 
-var root = new SQR.Transform();
 
 var stats = new Stats();
 stats.domElement.setAttribute('class', 'stats');
 if(DEBUG) document.body.appendChild(stats.domElement);
 
 var engine = new SQR.SquarerootGL(document.getElementById('gl-canvas'));
-engine.setSize(window.innerWidth, window.innerHeight);
-
 var target = engine.createFrameBuffer();
-
 var projection = new SQR.ProjectionMatrix();
-projection.perspective(45, window.innerWidth/window.innerHeight, 1, 10000);
-engine.setProjection(projection);
-
+var root = new SQR.Transform();
 var camera = new SQR.Transform();
 root.add(camera);
 
@@ -63,6 +57,14 @@ var resetCamera = function() {
 }
 
 resetCamera();
+
+var resize = () => {
+    projection.perspective(45, window.innerWidth/window.innerHeight, 1, 10000);
+    engine.setProjection(projection);
+    engine.setSize(window.innerWidth, window.innerHeight);
+};
+// window.addEventListener("resize", resize);
+resize();
 
 // Key.down("Q", function() {
 //     volume += 0.1;
@@ -134,7 +136,7 @@ sound.onBeat = function() {
 
 var loop = function() {
     stats.begin();
-    requestAnimFrame(loop);
+    requestAnimationFrame(loop);
 
     SQR.Time.tick();
     leap.tick();

@@ -11,7 +11,8 @@
 </head>
 <body>
 
-<canvas id="gl-canvas"></canvas>
+<div class="gl-wrapper"><canvas id="gl-canvas"></canvas></div>
+
 <canvas id="viz-canvas"></canvas>
 
 <div class="menu">
@@ -29,6 +30,7 @@
         <li class="mic">Microphone</li>
         <li class="track">Track</li>
     </ul>
+    <p class="small">Track by Codex Machine</p>
 </div>
 
 <div class="menu-button"><span>+</span> show options</div>
@@ -37,38 +39,41 @@
     <button>Start</button>
 </div>
 
-<!-- !DEV -->
-
-<!-- It does only work with an older version of the Engine -->
-<!-- <script type="text/javascript" src="../../javascript/squareroot/build/sqr.js"></script> -->
+<!-- It does only work with an older version of SQR -->
 <script type="text/javascript" src="squareroot-min-76.js"></script>
 
+<!-- !DEV -->
 <?php
 
-	$cmdl = strlen(getcwd()) + 1;
+$cmdl = strlen(getcwd()) + 1;
 
-	function getDirContents($dir) {
-        
-        global $cmdl;
-        
-		$files = scandir($dir);
-        
-		foreach($files as $key => $value){
-            $path = realpath($dir.DIRECTORY_SEPARATOR.$value);
-			if(!is_dir($path) && !preg_match("/main\.js/", $path)) {
-                $js = substr($path, $cmdl);
-				echo "<script type=\"text/javascript\" src=\"" . $js . "\"></script>\n";
-			} else if(is_dir($path) && $value != "." && $value != "..") {
-                getDirContents($path);
-			}
-		}
-	}
+function getDirContents($dir) {
     
-	getDirContents('js');
+    global $cmdl;
     
+    $files = scandir($dir);
+    
+    foreach($files as $key => $value){
+        $path = realpath($dir.DIRECTORY_SEPARATOR.$value);
+        if(!is_dir($path) && !preg_match("/main\.js/", $path)) {
+            $js = substr($path, $cmdl);
+            echo "<script type=\"text/javascript\" src=\"" . $js . "\"></script>\n";
+        } else if(is_dir($path) && $value != "." && $value != "..") {
+            getDirContents($path);
+        }
+    }
+}
+
+getDirContents('js');
+
 ?>
 <script type="text/javascript" src="js/main.js"></script>
 <!-- !DEV -->
+
+<!-- !PROD --><!--
+<script type="text/javascript" src="-min-76.js"></script>
+<script src="soundviz-%%BUILD_NUMBER%%.js"></script> 
+--><!-- !PROD -->
 
 </body>
 </head>

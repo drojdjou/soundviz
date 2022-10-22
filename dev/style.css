@@ -11,8 +11,19 @@ body {
 	user-select: none;
 }
 
-#gl-canvas {
+.gl-wrapper {
 	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#gl-canvas {
+	position: relative;
 	top: 0px;
 	left: 0px;
 }
