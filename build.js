@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 var fs = require('fs');
+var fse = require('fs-extra');
 
 var BUILD_NUMBER = 22;
 
@@ -11,7 +12,15 @@ try {
 }
 
 fs.mkdirSync("release");
-fs.mkdirSync("release/js");
+
+fs.mkdirSync("release/glsl");
+fse.copySync("dev/glsl", "release/glsl", { overwrite: true });
+
+fs.mkdirSync("release/assets");
+fse.copySync("dev/assets", "release/assets", { overwrite: true });
+
+fse.copySync("dev/squareroot-min-76.js", "release/squareroot-min-76.js", { overwrite: true });
+fse.copySync("dev/style.css", "release/style.css", { overwrite: true });
 
 var htmlc = require('./build/htmlc');
 var jcc = require('./build/jcc');
